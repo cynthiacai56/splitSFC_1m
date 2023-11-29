@@ -1,0 +1,31 @@
+{
+  "config": {
+	  "dbname":"cynthia",
+	  "user": "cynthia",
+	  "password": "123456",
+	  "host": "localhost",
+	  "port": 5432
+  },
+  "queries":{
+	  "D15_XL_RECT": {
+		  "source_dataset": "23090m",
+		  "mode": "bbox",
+		  "geometry": [92747.24, 93203.52, 431349.68, 431862.99]
+	  },
+	  "D16_XL_RECT_EMPTY": {
+		  "source_dataset": "23090m",
+		  "mode": "bbox",
+		  "geometry": [67195.73, 67537.93, 464486.8, 464886.04]
+	  },
+	  "D17_XL_CIRC": {
+		  "source_dataset": "23090m",
+		  "mode": "circle",
+		  "geometry": [[96625.6, 460323.3], 200]
+	  },
+	  "D21_L_NARROW_RECT": {
+		  "source_dataset": "23090m",
+		  "mode": "bbox",
+		  "geometry": [97999.5, 98000.5, 448990.0, 472619.0]
+	  }
+  }
+}

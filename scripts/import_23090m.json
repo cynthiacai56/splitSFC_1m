@@ -1,0 +1,17 @@
+{
+  "config": {
+    "dbname": "cynthia",
+    "user": "cynthia",
+    "password": "050694",
+    "host": "localhost",
+    "port": 5432
+  },
+  "imports": {
+    "23090m": {
+      "mode": "dir",
+      "srid": 28992,
+      "path": "/work/tmp/cynthia/bench_023090m",
+      "ratio": 0.55
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "config": {
+    "dbname": "cynthia",
+    "user": "cynthia",
+    "password": "050694",
+    "host": "localhost",
+    "port": 5432
+  },
+  "imports": {
+    "210m_50": {
+      "mode": "file",
+      "srid": 28992,
+      "path": "/work/tmp/cynthia/bench_000210m/ahn_bench000210.las",
+      "ratio": 0.5
+    },
+    "210m_55": {
+      "mode": "file",
+      "srid": 28992,
+      "path": "/work/tmp/cynthia/bench_000210m/ahn_bench000210.las",
+      "ratio": 0.55
+    },
+    "210m_60": {
+      "mode": "file",
+      "srid": 28992,
+      "path": "/work/tmp/cynthia/bench_000210m/ahn_bench000210.las",
+      "ratio": 0.6
+    }
+  }
+}
