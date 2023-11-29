@@ -14,6 +14,9 @@ class Querier:
     def __init__(self, query_name, source_name, db_conf):
         self.head_len = 28
         self.tail_len = 24
+        self.scales = [0.01, 0.01, 0.01]
+        self.offsets = [0, 400000, 0]
+
         self.source_table = "point_" + source_name
         self.name = query_name
 
@@ -117,8 +120,12 @@ class Querier:
         print("-> Refinement (min_z) step time:", round(time.time() - start_time, 2))
 
     def range_search(self, bbox):
-        # 0. Scale the bbox by 100, (for AHN2)
-        bbox = [value*100 for value in bbox]
+        # 0. Scale and shift the bounding box ,
+        x_scale, y_scale = self.scales[0], self.scales[1]
+        x_offset, y_offset = self.offsets[0], self.offsets[1]
+        x_min, x_max = bbox[0] * x_scale + x_offset, bbox[1] * x_scale + x_offset
+        y_min, y_max = bbox[2] * x_scale + x_offset, bbox[3] * x_scale + x_offset
+        bbox = [x_min, x_max, y_min, y_max]
 
         # 1. Find the fully containing and overlapping heads
         head_ranges, head_overlaps = morton_range(bbox, 0, self.head_len, self.tail_len)
@@ -149,7 +156,7 @@ class Querier:
         for (sfc_head, sfc_tail, z) in res1:
             for i in range(len(sfc_tail)):
                 sfc_key = sfc_head << self.tail_len | sfc_tail[i]
-                x, y = DecodeMorton2DX(sfc_key)*0.01, DecodeMorton2DY(sfc_key)*0.01
+                x, y = DecodeMorton2DX(sfc_key)*x_scale+x_offset, DecodeMorton2DY(sfc_key)*y_scale+y_offset
                 points_within_bbox.append([x, y, z[i]])
 
         for (sfc_head, sfc_tail, z) in res2:  # Each group
@@ -161,7 +168,7 @@ class Querier:
                 check_in_range = any(start <= sfc_tail[i] <= end for start, end in tail_rgs)
                 if check_in_range == 1:
                     sfc_key = sfc_head << self.tail_len | sfc_tail[i]
-                    x, y = DecodeMorton2DX(sfc_key)*0.01, DecodeMorton2DY(sfc_key)*0.01
+                    x, y = DecodeMorton2DX(sfc_key)*x_scale+x_offset, DecodeMorton2DY(sfc_key)*y_scale+y_offset
                     points_within_bbox.append([x, y, z[i]])
 
         # 4. Create results as a table
@@ -171,8 +178,6 @@ class Querier:
             self.cursor.execute(insert_sql, point)
         self.connection.commit()
         print(f"Points (original values) within the bounding box are inserted into the table {self.name}.")
-
-
 
     def disconnect(self):
         if self.connection:
