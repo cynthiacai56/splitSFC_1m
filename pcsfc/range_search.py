@@ -1,4 +1,4 @@
-from pcsfc.decoder import DecodeMorton2D
+from pcsfc.decoder import DecodeMorton2DX, DecodeMorton2DY
 
 
 def morton_range(bbox, start, body_len, end_len):
@@ -17,8 +17,8 @@ def morton_range(bbox, start, body_len, end_len):
         for slice_min in fronts:
             slice_max = slice_min + full_one_end
 
-            xs_min, ys_min = DecodeMorton2D(slice_min)
-            xs_max, ys_max = DecodeMorton2D(slice_max)
+            xs_min, ys_min = DecodeMorton2DX(slice_min), DecodeMorton2DY(slice_min)
+            xs_max, ys_max = DecodeMorton2DX(slice_max), DecodeMorton2DY(slice_max)
 
             # Fully containment
             if xs_min >= x_min and xs_max <= x_max and ys_min >= y_min and ys_max <= y_max:
