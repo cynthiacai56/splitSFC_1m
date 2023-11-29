@@ -38,16 +38,16 @@ class PointProcessor:
 
     def encode_split_points(self, points):
         encoded_points = []
-        for point in points:
+        for pt in points:
             # Encode XY coordinates with Morton Curve
-            mkey = EncodeMorton2D(points[0], points[1])
+            mkey = EncodeMorton2D(int(pt[0]), int(pt[1]))
 
             # Split the Morton key into head and tail
             head = mkey >> self.tail_len
             tail = mkey - (head << self.tail_len)
 
             # Save the point
-            encoded_points.append((head, tail, points[2]))
+            encoded_points.append((head, tail, pt[2]))
 
         return encoded_points
 
