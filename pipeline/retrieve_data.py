@@ -17,7 +17,7 @@ class Querier:
         self.scales = [1, 1, 1]
         self.offsets = [0, 0, 0]
 
-        self.source_table = "point_" + source_name
+        self.source_table = "point_1m_" + source_name
         self.name = query_name
 
         try:
