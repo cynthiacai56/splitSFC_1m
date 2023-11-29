@@ -14,8 +14,8 @@ class Querier:
     def __init__(self, query_name, source_name, db_conf):
         self.head_len = 28
         self.tail_len = 24
-        self.scales = [0.01, 0.01, 0.01]
-        self.offsets = [0, 400000, 0]
+        self.scales = [1, 1, 1]
+        self.offsets = [0, 0, 0]
 
         self.source_table = "point_" + source_name
         self.name = query_name
