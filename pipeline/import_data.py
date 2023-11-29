@@ -10,25 +10,26 @@ from db import Postgres
 
 class FileLoader:
     def __init__(self, name, parameters):
+        self.name = name
         self.path = parameters["path"]
-        self.ratio = parameters["ratio"]
         self.tail_len = None
 
-        self.meta = self.get_metadata(name, parameters["srid"])
+        self.meta = self.get_metadata(parameters["srid"], parameters["ratio"])
         print(self.meta)
 
-    def get_metadata(self, name, srid):
+    def get_metadata(self, srid, ratio):
         # name, srid, point_count, head_len, tail_len, scale, offset, bbox
         with laspy.open(self.path) as f:
             point_count = f.header.point_count
-            scales, offsets = f.header.scales, f.header.offsets
+            scales = f.header.scales.tolist()
+            offsets = f.header.offsets.tolist()
             bbox = [f.header.x_min, f.header.x_max, f.header.y_min, f.header.y_max, f.header.z_min, f.header.z_max]
 
-            X_max = round((f.header.x_max - self.offsets[0]) / self.scales[0])
-            Y_max = round((f.header.y_max - self.offsets[1]) / self.scales[1])
-            head_len, self.tail_len = compute_split_length(X_max, Y_max, self.ratio)
+            X_max = round((f.header.x_max - offsets[0]) / scales[0])
+            Y_max = round((f.header.y_max - offsets[1]) / scales[1])
+            head_len, self.tail_len = compute_split_length(X_max, Y_max, ratio)
 
-        meta = [name, srid, point_count, head_len, self.tail_len, scales, offsets, bbox]
+        meta = [self.name, srid, point_count, head_len, self.tail_len, scales, offsets, bbox]
         return meta
 
     def preparation(self):
