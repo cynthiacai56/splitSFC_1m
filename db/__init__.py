@@ -9,7 +9,7 @@ class Postgres:
 
         self.meta_table = "metadata_" + name
         self.point_table = "point_" + name
-        self.btree_index = "btree_" + name
+        self.btree_index = "btree_idx_" + name
 
     def connect(self):
         try:
