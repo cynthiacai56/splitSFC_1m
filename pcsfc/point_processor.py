@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 import laspy
 from itertools import groupby
 from collections import Counter
@@ -28,7 +27,7 @@ class PointProcessor:
 
     def execute(self):
         las = laspy.read(self.path)
-        points = np.vstack((las.X, las.Y, las.Z)).transpose()
+        points = np.vstack((las.x, las.y, las.z)).transpose()
         encoded_pts = self.encode_split_points(points)
 
         # Sort and group the points
